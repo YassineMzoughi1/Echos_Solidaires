@@ -21,13 +21,14 @@ import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
   >
     <div
       data-initiatives-track
+      data-reveal
+      data-reveal-stagger="110"
       class="flex gap-6 py-10 md:py-12"
       style="width: max-content;"
     >
       {initiatives.map((it, idx) => (
         <article
           class="group flex-none w-[320px] sm:w-[340px] md:w-[380px] lg:w-[400px] bg-white rounded-3xl shadow-[0_1px_2px_rgba(20,30,55,0.04),0_8px_24px_rgba(20,30,55,0.06)] p-4 flex flex-col snap-start"
-          data-reveal
           style={`--i:${idx}`}
         >
           <div class="relative aspect-[16/11] overflow-hidden rounded-2xl">

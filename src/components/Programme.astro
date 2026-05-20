@@ -9,11 +9,12 @@ import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
       <h2
         class="font-display font-medium text-indigo leading-[1.05]"
         style="font-size: clamp(40px, 5.5vw, 64px);"
+        data-reveal
       >
         Programme
       </h2>
 
-      <div class="relative inline-flex gap-12 mt-1" role="tablist" aria-label="Choix du jour">
+      <div class="relative inline-flex gap-12 mt-1" role="tablist" aria-label="Choix du jour" data-reveal>
         {programme.map((d) => (
           <button
             type="button"
@@ -81,7 +82,7 @@ import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
       ))}
     </div>
 
-    <div class="flex items-center justify-center gap-4 mt-6">
+    <div class="flex items-center justify-center gap-4 mt-6" data-reveal>
       <button
         type="button"
         data-day-nav="prev"
