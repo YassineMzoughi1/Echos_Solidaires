@@ -3,6 +3,7 @@
 // frame if the source 404s or autoplay is blocked, so we don't need
 // build-time fs probing (which caches per dev-server boot and misses
 // videos added after start-up).
+import StatsBar from './StatsBar.astro';
 const videoSrc  = '/images/hero.mp4';
 const posterUrl = '/images/hero-poster.svg';
 ---
@@ -26,5 +27,12 @@ const posterUrl = '/images/hero-poster.svg';
     >
       <source src={videoSrc} type="video/mp4" />
     </video>
+    <!-- Subtle gradient at the bottom for stat legibility against the video -->
+    <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-indigo/70 via-indigo/30 to-transparent pointer-events-none"></div>
+  </div>
+
+  <!-- Stats overlay at the bottom of the hero -->
+  <div class="absolute inset-x-0 bottom-0 z-10">
+    <StatsBar />
   </div>
 </section>
