@@ -45,15 +45,18 @@ import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
           hidden
         >
           <ol class="relative">
-            <span class="absolute top-3 bottom-3 left-[140px] md:left-[160px] w-px bg-indigo/20" aria-hidden="true"></span>
+            <img
+              src="/images/programme/line.svg"
+              alt=""
+              aria-hidden="true"
+              class="absolute left-[140px] md:left-[160px] top-0 h-full w-[35px] -translate-x-1/2 pointer-events-none"
+            />
             {d.items.map((item) => (
               <li class="grid grid-cols-[130px_24px_1fr] md:grid-cols-[150px_28px_1fr] gap-x-3 md:gap-x-5 items-center py-2.5">
                 <div class="text-body md:text-body-lg font-semibold text-indigo">
                   {item.time}
                 </div>
-                <div class="relative flex justify-center">
-                  <span class="timeline-dot"></span>
-                </div>
+                <div></div>
                 <article class="border border-ink-300 rounded-lg px-5 py-4 bg-cream flex gap-4 items-center">
                   <div class="flex-1 min-w-0">
                     <h3 class="font-sans font-bold text-h3 text-indigo leading-tight">{item.title}</h3>
