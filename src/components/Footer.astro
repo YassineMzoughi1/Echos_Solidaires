@@ -1,0 +1,101 @@
+---
+import { navLinks, eventMeta, contact } from '../lib/data';
+
+const linkItems = [
+  { href: '#a-propos',    label: 'A propos' },
+  { href: '#programme',   label: 'Programme' },
+  { href: '#initiatives', label: 'Initiatives' },
+  { href: '#gallerie',    label: 'Gallerie' },
+  { href: '#contact',     label: 'Contact' }
+];
+---
+
+<footer class="bg-cream">
+  <div class="max-w-content mx-auto px-6 md:px-12 lg:px-20">
+    <hr class="border-0 border-t border-ink-300" />
+  </div>
+  <div class="max-w-content mx-auto px-6 md:px-12 lg:px-20 pt-20 md:pt-24 pb-10">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-10">
+      <!-- Brand -->
+      <div class="md:col-span-4" data-reveal>
+        <a href="#accueil" aria-label="Échos Solidaires — accueil" class="inline-block">
+          <img src="/images/logo.svg" alt="أصداء — Échos Solidaires" style="height: 72px; width: auto; display: block;" />
+        </a>
+        <p class="mt-8 text-caption text-indigo/80 max-w-[40ch] leading-[1.8]" style="font-size: 13px;">
+          Échos Solidaires – <span lang="ar" dir="rtl">أصداء</span> rassemble
+          acteurs locaux, jeunes, artisans et porteurs d’initiatives autour du
+          climat, du patrimoine et des solidarités territoriales à Nefta.
+        </p>
+      </div>
+
+      <!-- Liens -->
+      <nav class="md:col-span-3" aria-label="Plan du site" data-reveal>
+        <p class="font-sans font-semibold text-body-sm text-indigo">Liens</p>
+        <ul class="mt-7 flex flex-col gap-5">
+          {linkItems.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class="text-body-sm text-indigo hover:text-argile transition-colors duration-300 ease-editorial"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- Infos pratiques -->
+      <div class="md:col-span-2" data-reveal>
+        <p class="font-sans font-semibold text-body-sm text-indigo">Infos pratiques</p>
+        <ul class="mt-7 flex flex-col gap-5 text-body-sm text-indigo/80">
+          <li>{eventMeta.date}</li>
+          <li>{eventMeta.location}</li>
+          <li>{contact.email}</li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="md:col-span-3" data-reveal>
+        <p class="font-sans font-semibold text-body-sm text-indigo">Newsletter</p>
+        <p class="mt-7 text-body-sm text-indigo/80 leading-relaxed max-w-[28ch]">
+          Restez informé de nos actualitées et prochains evenements
+        </p>
+      </div>
+    </div>
+
+    <hr class="mt-16 border-0 border-t border-ink-300" />
+
+    <div class="mt-6 flex flex-col-reverse md:flex-row items-start md:items-center justify-between gap-4">
+      <ul class="flex items-center gap-4">
+        <li>
+          <a
+            href="https://facebook.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+            class="inline-flex transition-opacity duration-300 ease-editorial hover:opacity-80"
+          >
+            <img src="/images/Footer/Facebook.svg" alt="" width="28" height="28" />
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            class="inline-flex transition-opacity duration-300 ease-editorial hover:opacity-80"
+          >
+            <img src="/images/Footer/Insta.svg" alt="" width="28" height="28" />
+          </a>
+        </li>
+      </ul>
+
+      <p class="flex items-center gap-2 text-body-sm text-indigo/80">
+        <img src="/images/Footer/c.svg" alt="©" width="20" height="20" class="inline-block" />
+        <span>Login Challege 2026 - Collège Lasalle-Tunis. All rights reserved</span>
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,97 @@
+---
+import { contact } from '../lib/data';
+
+const blocks = [
+  { icon: '/images/Contact/Icons/phone.svg',   label: 'Tel',      value: contact.tel,      href: `tel:${contact.tel.replace(/\s+/g, '')}` },
+  { icon: '/images/Contact/Icons/message.svg', label: 'Email',    value: contact.email,    href: `mailto:${contact.email}` },
+  { icon: '/images/Contact/Icons/map.svg',     label: 'Location', value: contact.location, href: 'https://maps.google.com/?q=Tunis,+Tunisia' }
+];
+
+const fieldClass =
+  'w-full h-14 px-5 bg-transparent border border-ink-300 rounded-md text-body text-ink-700 placeholder:text-ink-500 transition-colors duration-300 ease-editorial focus-visible:border-indigo focus:outline-none';
+---
+
+<section id="contact" class="bg-cream">
+  <div class="max-w-content mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-20 lg:py-24">
+    <h2
+      class="text-center font-sans font-bold text-indigo leading-[1.05]"
+      style="font-size: clamp(40px, 6vw, 64px);"
+    >
+      Contact
+    </h2>
+
+    <div class="mt-10 md:mt-14 flex flex-wrap justify-center items-center gap-x-16 gap-y-8">
+      {blocks.map((b) => (
+        <a href={b.href} class="flex items-center gap-4">
+          <img src={b.icon} alt="" width="44" height="44" class="flex-none w-11 h-11" />
+          <div class="flex flex-col">
+            <span class="font-sans font-bold text-h3 text-indigo leading-tight">{b.label}</span>
+            <span class="text-body text-ink-700">{b.value}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-14 md:mt-16 relative">
+      <div data-form-wrap class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-stretch">
+        <div class="bg-ink-300/40 rounded-md min-h-[360px] md:min-h-[440px]"></div>
+
+        <form data-form novalidate class="flex flex-col gap-5">
+          <input id="c-nom"     name="nom_complet" type="text"  placeholder="Nom & Prénom"  autocomplete="name"  required class={fieldClass} />
+          <input id="c-email"   name="email"       type="email" placeholder="Adresse Email" autocomplete="email" required class={fieldClass} />
+          <textarea id="c-message" name="message" placeholder="Message" rows={6} required class={`${fieldClass} h-auto py-4 leading-relaxed resize-vertical`}></textarea>
+
+          <button
+            data-submit-btn
+            type="submit"
+            class="relative w-full h-14 rounded-md text-cream font-sans font-semibold text-body uppercase tracking-[0.15em] mt-auto overflow-hidden transition-opacity duration-300 disabled:cursor-not-allowed"
+            style="background-color: rgba(0,0,0,0.6);"
+          >
+            <span data-btn-label class="inline-flex items-center justify-center gap-3 transition-opacity duration-300">
+              Envoyer
+            </span>
+            <span data-btn-loading class="absolute inset-0 inline-flex items-center justify-center gap-3 opacity-0 pointer-events-none transition-opacity duration-300">
+              <span class="contact-spinner" aria-hidden="true"></span>
+              <span>Envoi en cours</span>
+            </span>
+          </button>
+        </form>
+      </div>
+
+      <div
+        data-form-success
+        class="bg-sable rounded-lg border border-ink-300/50 px-8 py-16 md:py-20 text-center flex flex-col items-center gap-5"
+        style="display: none;"
+      >
+        <span class="inline-flex items-center justify-center w-12 h-12 rounded-full border border-oasis text-oasis" aria-hidden="true">
+          <i class="ph ph-check text-[22px]"></i>
+        </span>
+        <h3
+          class="font-display font-medium text-indigo"
+          style="font-size: clamp(24px, 3.5vw, 32px);"
+        >
+          Merci. Votre message a bien été envoyé.
+        </h3>
+        <p class="text-body text-ink-700 max-w-[44ch]">
+          L’équipe Échos Solidaires vous répondra dans les meilleurs délais.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-spinner {
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    border: 2px solid rgba(249, 241, 228, 0.35);
+    border-top-color: #F9F1E4;
+    animation: contact-spin 0.7s linear infinite;
+  }
+  @keyframes contact-spin {
+    to { transform: rotate(360deg); }
+  }
+  [data-submit-btn].is-loading [data-btn-label]   { opacity: 0; }
+  [data-submit-btn].is-loading [data-btn-loading] { opacity: 1; }
+</style>

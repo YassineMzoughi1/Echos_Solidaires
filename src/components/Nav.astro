@@ -1,0 +1,95 @@
+---
+import { navLinks } from '../lib/data';
+---
+
+<header
+  data-nav
+  class="fixed inset-x-0 top-0 z-50 backdrop-blur-xl bg-cream/80 transition-colors duration-300 ease-editorial"
+>
+  <div
+    class="max-w-content mx-auto flex items-center justify-between px-6 md:px-12 lg:px-20 h-20"
+  >
+    <a href="#accueil" class="logo-wordmark text-indigo block" aria-label="Échos Solidaires — accueil">
+      <img src="/images/logo.svg" alt="Échos Solidaires" style="height: 44px; width: auto; display: block;" />
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-10" aria-label="Navigation principale">
+      {navLinks.map((l) => (
+        <a
+          href={l.href}
+          class="nav-link text-ink-700 hover:text-indigo text-body-sm font-medium"
+        >
+          {l.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <a
+        href="#contact"
+        class="hidden md:inline-flex items-center gap-3 bg-oasis text-indigo hover:bg-indigo hover:text-cream font-semibold text-body-sm uppercase tracking-[0.15em] rounded-md h-11 px-5 transition-colors duration-300 ease-editorial"
+      >
+        Participer
+        <i class="ph ph-arrow-right"></i>
+      </a>
+
+      <button
+        type="button"
+        data-menu-toggle
+        aria-label="Ouvrir le menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-md border border-indigo/20 text-indigo"
+      >
+        <i class="ph ph-list text-[22px]"></i>
+      </button>
+    </div>
+  </div>
+
+  <div data-nav-border class="rule opacity-0 transition-opacity duration-300 ease-editorial"></div>
+</header>
+
+<!-- Mobile full-screen menu -->
+<aside
+  id="mobile-menu"
+  data-mobile-menu
+  data-open="false"
+  class="lg:hidden fixed inset-0 z-40 bg-cream pointer-events-none opacity-0 transition-opacity duration-400 ease-editorial"
+  aria-hidden="true"
+>
+  <div class="h-full flex flex-col px-6 pt-28 pb-12">
+    <nav class="flex-1 flex flex-col gap-6" aria-label="Menu mobile">
+      {navLinks.map((l) => (
+        <a
+          data-menu-item
+          href={l.href}
+          class="font-display text-[40px] leading-none text-indigo"
+        >
+          {l.label}
+        </a>
+      ))}
+    </nav>
+    <a
+      data-menu-item
+      href="#contact"
+      class="inline-flex items-center justify-center gap-3 bg-oasis text-indigo hover:bg-indigo hover:text-cream font-semibold text-body-sm uppercase tracking-[0.15em] rounded-md h-14 w-full transition-colors duration-300 ease-editorial"
+    >
+      Participer
+      <i class="ph ph-arrow-right"></i>
+    </a>
+  </div>
+</aside>
+
+<style>
+  [data-nav].is-scrolled [data-nav-border] {
+    opacity: 1;
+    background: rgba(26, 38, 57, 0.08);
+  }
+  [data-mobile-menu][data-open="true"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  [data-mobile-menu] {
+    transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+</style>

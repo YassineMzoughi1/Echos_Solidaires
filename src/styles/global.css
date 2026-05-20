@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Brand CSS variables (mirror Tailwind tokens for raw CSS use) ---------- */
+:root {
+  --cream: #F9F1E4;
+  --sable: #E8DBB7;
+  --indigo: #1A2639;
+  --argile: #C84B31;
+  --oasis: #99C78C;
+  --ocre: #DDA13E;
+  --ink-900: #0F1419;
+  --ink-700: #2A2F3A;
+  --ink-500: #6B7280;
+  --ink-300: #C8C2B6;
+
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: light;
+}
+
+html {
+  font-family: 'Inter Variable', Inter, system-ui, -apple-system, sans-serif;
+  background: var(--cream);
+  color: var(--ink-700);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Kill any rogue horizontal scroll from full-bleed sections / pinned tracks */
+  overflow-x: clip;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink-700);
+  font-feature-settings: 'ss01', 'cv11';
+  min-height: 100svh;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--argile);
+  color: var(--cream);
+}
+
+/* ---------- Focus ring (editorial) ---------- */
+:focus-visible {
+  outline: 2px solid var(--argile);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--argile);
+  outline-offset: 2px;
+}
+
+/* ---------- Skip link ---------- */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 12px;
+  background: var(--indigo);
+  color: var(--cream);
+  padding: 12px 18px;
+  border-radius: 8px;
+  z-index: 100;
+  font-size: 14px;
+  transition: top 220ms var(--ease-editorial);
+}
+.skip-link:focus {
+  top: 12px;
+}
+
+/* ---------- Reveal default (initial state — JS animates from here, repeatable) ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  will-change: opacity, transform;
+}
+[data-reveal-scale] {
+  opacity: 0;
+  transform: scale(0.95);
+  will-change: opacity, transform;
+}
+
+/* ---------- Letter / word split helpers ---------- */
+.split-line {
+  display: inline-block;
+  overflow: hidden;
+}
+.split-char,
+.split-word {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+.split-char {
+  white-space: pre;
+}
+
+/* ---------- Magazine accent rule ---------- */
+.rule {
+  height: 1px;
+  background: var(--ink-300);
+}
+
+/* ---------- Programme rail dot ---------- */
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--oasis);
+  outline: 4px solid var(--cream);
+}
+
+/* ---------- Button: sweep hover ---------- */
+.btn-sweep {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.btn-sweep::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 0;
+  background: var(--argile);
+  transition: width 400ms var(--ease-editorial);
+  z-index: -1;
+}
+.btn-sweep:hover::before {
+  width: 100%;
+}
+
+/* ---------- Nav underline ---------- */
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 400ms var(--ease-editorial);
+}
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+.nav-link.is-active::after {
+  background: var(--argile);
+  transform: scaleX(1);
+}
+
+/* ---------- Horizontal scroll snap (mobile fallback) ---------- */
+.snap-row {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.snap-row > * {
+  scroll-snap-align: start;
+}
+
+/* Hide scrollbar visually but keep accessibility */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ---------- Reduced motion: kill all motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal],
+  [data-reveal-scale] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .split-char,
+  .split-word {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ---------- Logo color inheritance ---------- */
+.logo-wordmark {
+  height: 40px;
+  width: auto;
+  color: currentColor;
+}
+.logo-wordmark--lg { height: 56px; }
+.logo-wordmark svg,
+.logo-wordmark path { fill: currentColor; }
+
+/* ---------- Gallery brightness hover ---------- */
+.gallery-item img {
+  transition: transform 600ms var(--ease-editorial), filter 600ms var(--ease-editorial);
+  filter: brightness(0.95);
+}
+.gallery-item:hover img {
+  transform: scale(1.02);
+  filter: brightness(1);
+}

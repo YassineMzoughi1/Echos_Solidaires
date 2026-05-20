@@ -1,0 +1,87 @@
+---
+import { initiatives } from '../lib/data';
+import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
+---
+
+<section id="initiatives" data-initiatives class="bg-cream relative">
+  <div class="max-w-content mx-auto px-6 md:px-12 lg:px-20 pt-16 md:pt-20 lg:pt-32 pb-6">
+    <h2
+      class="font-display font-medium text-indigo leading-[1.1]"
+      style="font-size: clamp(44px, 6vw, 72px);"
+      data-reveal
+    >
+      Nos axes de travail
+    </h2>
+  </div>
+
+  <!-- Native horizontal scroll only (no vertical-scroll pinning). -->
+  <div
+    data-initiatives-scroller
+    class="overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory"
+  >
+    <div
+      data-initiatives-track
+      class="flex gap-6 py-10 md:py-12"
+      style="width: max-content;"
+    >
+      {initiatives.map((it, idx) => (
+        <article
+          class="group flex-none w-[320px] sm:w-[340px] md:w-[380px] lg:w-[400px] bg-white rounded-3xl shadow-[0_1px_2px_rgba(20,30,55,0.04),0_8px_24px_rgba(20,30,55,0.06)] p-4 flex flex-col snap-start"
+          data-reveal
+          style={`--i:${idx}`}
+        >
+          <div class="relative aspect-[16/11] overflow-hidden rounded-2xl">
+            <ImageOrPlaceholder
+              src={it.image}
+              alt={`Illustration · ${it.title}`}
+              width={480}
+              height={330}
+              loading="lazy"
+              class="w-full h-full object-cover transition-transform duration-600 ease-editorial group-hover:scale-[1.05]"
+            />
+          </div>
+          <div class="px-2 pt-5 pb-3 flex flex-col">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="font-sans font-bold text-h2 text-indigo leading-tight">{it.title}</h3>
+              <span class="flex-none mt-1 text-indigo transition-transform duration-400 ease-editorial group-hover:translate-x-1">
+                <i class="ph ph-arrow-up-right text-[20px]"></i>
+              </span>
+            </div>
+            <p class="mt-4 text-body-sm text-ink-700 leading-relaxed">{it.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Align the first card's left edge with the title (which sits inside max-w-content / mx-auto).
+     padding on the track gives the visual gutter; scroll-padding on the scroller makes
+     scroll-snap respect that gutter (otherwise snap-start jumps the first card to x=0). */
+  [data-initiatives-track] {
+    padding-left: max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
+    padding-right: max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
+  }
+  [data-initiatives-scroller] {
+    scroll-padding-inline-start: max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
+  }
+  @media (min-width: 768px) {
+    [data-initiatives-track] {
+      padding-left: max(3rem, calc((100vw - 1280px) / 2 + 3rem));
+      padding-right: max(3rem, calc((100vw - 1280px) / 2 + 3rem));
+    }
+    [data-initiatives-scroller] {
+      scroll-padding-inline-start: max(3rem, calc((100vw - 1280px) / 2 + 3rem));
+    }
+  }
+  @media (min-width: 1024px) {
+    [data-initiatives-track] {
+      padding-left: max(5rem, calc((100vw - 1280px) / 2 + 5rem));
+      padding-right: max(5rem, calc((100vw - 1280px) / 2 + 5rem));
+    }
+    [data-initiatives-scroller] {
+      scroll-padding-inline-start: max(5rem, calc((100vw - 1280px) / 2 + 5rem));
+    }
+  }
+</style>

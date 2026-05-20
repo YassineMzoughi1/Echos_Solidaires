@@ -1,0 +1,54 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'ghost' | 'sweep';
+  type?: 'submit' | 'button';
+  class?: string;
+  ariaLabel?: string;
+  arrow?: boolean;
+  block?: boolean;
+}
+
+const {
+  href,
+  variant = 'primary',
+  type = 'button',
+  class: extra = '',
+  ariaLabel,
+  arrow = false,
+  block = false
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-3 font-sans font-semibold text-body-sm uppercase tracking-[0.15em] rounded-md h-12 px-7 transition-colors duration-400 ease-editorial';
+
+const variantCls = {
+  primary: 'btn-sweep bg-indigo text-cream',
+  ghost:   'border border-indigo text-indigo hover:bg-indigo hover:text-cream',
+  sweep:   'btn-sweep bg-indigo text-cream'
+}[variant];
+
+const cls = [base, variantCls, block ? 'w-full' : '', extra].filter(Boolean).join(' ');
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  href={href}
+  type={!href ? type : undefined}
+  class={cls}
+  aria-label={ariaLabel}
+>
+  <slot />
+  {arrow && (
+    <span class="inline-flex transition-transform duration-400 ease-editorial group-hover:translate-x-1">
+      <i class="ph ph-arrow-right text-[18px]"></i>
+    </span>
+  )}
+</Tag>
+
+<style>
+  a, button { position: relative; }
+  a:hover .ph-arrow-right,
+  button:hover .ph-arrow-right { transform: translateX(4px); }
+  .ph-arrow-right { transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1); }
+</style>

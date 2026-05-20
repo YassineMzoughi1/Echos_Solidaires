@@ -1,0 +1,70 @@
+---
+// About — matches the wireframe exactly:
+//   image LEFT (Echo_Solidaire.png, landscape aspect)
+//   headline + two paragraphs + two CTAs RIGHT
+// No eyebrow line, no decorative meta — only what's in the screenshot.
+---
+
+<section id="a-propos" class="bg-cream">
+  <div class="max-w-content mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-24 lg:py-32">
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-20 items-center">
+      <!-- Image -->
+      <div class="lg:col-span-6" data-about-img>
+        <div class="overflow-hidden rounded-lg" data-reveal>
+          <div class="aspect-[5/4]">
+            <img
+              src="/images/Echo_Solidaire.png"
+              alt="Échos Solidaires 2026 — visuel de l’événement à Nefta"
+              width="4501"
+              height="4501"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Copy -->
+      <div class="lg:col-span-6 flex flex-col gap-8">
+        <h2
+          class="font-display font-medium text-indigo leading-[1.05]"
+          style="font-size: clamp(40px, 5.5vw, 72px);"
+          data-reveal
+        >
+          Echo Solidaire 2026
+        </h2>
+
+        <p data-word-reveal class="text-body-lg text-ink-700 max-w-[58ch]">
+          Échos Solidaires — أصداء est né du besoin de créer des espaces communs,
+          où les expériences locales, les recherches et les pratiques associatives
+          se rencontrent. L’événement cherche à relier ce qui s’invente sur les
+          territoires, à documenter les savoirs et à renforcer les liens entre
+          celles et ceux qui agissent.
+        </p>
+
+        <p data-word-reveal class="text-body-lg text-ink-700 max-w-[58ch]">
+          En 2025, c’est à Nefta que se tiendra cette nouvelle édition, dédiée
+          à l’adaptation climatique et aux solidarités locales, entre
+          réflexions, expérimentations et moments partagés.
+        </p>
+
+        <!-- Clean, separated CTAs — no btn-sweep, no flash -->
+        <div class="flex flex-wrap items-center gap-5 mt-2" data-reveal>
+          <a
+            href="#programme"
+            class="inline-flex items-center justify-center bg-indigo text-cream hover:bg-ink-900 font-sans font-semibold text-body-sm tracking-[0.02em] rounded-md h-14 px-8 transition-colors duration-300 ease-editorial"
+          >
+            Voir le programme
+          </a>
+          <a
+            href="#contact"
+            class="inline-flex items-center justify-center bg-cream text-indigo border border-indigo hover:bg-indigo hover:text-cream font-sans font-semibold text-body-sm tracking-[0.02em] rounded-md h-14 px-8 transition-colors duration-300 ease-editorial"
+          >
+            Participer
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

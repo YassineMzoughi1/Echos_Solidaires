@@ -1,0 +1,70 @@
+---
+import { gallery, galleryFilters } from '../lib/data';
+import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
+
+// Repeating layout pattern matching the mockup:
+//   row A:  small | small | wide(×2)
+//   row B:  wide(×2) | small | small
+// Indexes 2 and 3 within each block of 6 are the wide cards.
+const isWide = (idx: number) => idx % 6 === 2 || idx % 6 === 3;
+---
+
+<section id="gallerie" data-gallery class="bg-cream">
+  <div class="max-w-content mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-20 lg:py-32">
+    <header class="text-center flex flex-col items-center gap-6">
+      <h2
+        class="font-display font-medium text-indigo leading-[1.1]"
+        style="font-size: clamp(44px, 7vw, 72px);"
+        data-reveal
+      >
+        Gallerie
+      </h2>
+
+      <div class="relative inline-flex flex-wrap justify-center gap-x-8 gap-y-3 mt-4" role="tablist" aria-label="Filtres de gallerie">
+        {galleryFilters.map((f, idx) => (
+          <button
+            type="button"
+            data-gallery-filter={f.id}
+            class={`relative pb-2 text-body-sm font-medium tracking-[0.05em] uppercase transition-colors duration-300 ease-editorial ${idx === 0 ? 'is-active text-indigo' : 'text-ink-500 hover:text-indigo'}`}
+            aria-pressed={idx === 0 ? 'true' : 'false'}
+          >
+            {f.label}
+          </button>
+        ))}
+        <span
+          data-gallery-underline
+          aria-hidden="true"
+          class="absolute left-0 bottom-0 h-[2px] bg-argile transition-transform duration-400 ease-editorial"
+          style="width: 0; transform: translateX(0);"
+        ></span>
+      </div>
+    </header>
+
+    <div
+      class="relative mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[180px] md:auto-rows-[240px] lg:auto-rows-[300px]"
+    >
+      {gallery.map((g, idx) => (
+        <figure
+          data-gallery-item
+          data-reveal-scale
+          data-category={g.category}
+          class={`gallery-item relative overflow-hidden rounded-2xl md:rounded-3xl bg-argile/20 ${isWide(idx) ? 'md:col-span-2' : ''}`}
+        >
+          <ImageOrPlaceholder
+            src={g.src}
+            alt={g.alt}
+            width={isWide(idx) ? 1600 : 800}
+            height={isWide(idx) ? 900 : 800}
+            loading="lazy"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+          <figcaption class="sr-only">{g.alt}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-gallery-filter].is-active { color: var(--indigo); }
+</style>

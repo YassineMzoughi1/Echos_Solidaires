@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import StatsBar from '../components/StatsBar.astro';
+import About from '../components/About.astro';
+import Programme from '../components/Programme.astro';
+import Initiatives from '../components/Initiatives.astro';
+import Gallerie from '../components/Gallerie.astro';
+import JoinCTA from '../components/JoinCTA.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout>
+  <Nav />
+  <main id="contenu">
+    <Hero />
+    <StatsBar />
+    <About />
+    <Programme />
+    <Initiatives />
+    <Gallerie />
+    <JoinCTA />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

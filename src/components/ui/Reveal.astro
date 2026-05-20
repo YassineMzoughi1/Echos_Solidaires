@@ -1,0 +1,16 @@
+---
+interface Props {
+  as?: string;
+  class?: string;
+  stagger?: number;
+}
+const { as = 'div', class: extra = '', stagger } = Astro.props;
+const Tag = as;
+---
+<Tag
+  class={extra}
+  data-reveal
+  data-reveal-stagger={stagger ? String(stagger) : undefined}
+>
+  <slot />
+</Tag>

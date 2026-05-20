@@ -1,0 +1,104 @@
+---
+import { programme } from '../lib/data';
+import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
+---
+
+<section id="programme" class="bg-cream min-h-screen flex items-center">
+  <div class="w-full max-w-content mx-auto px-6 md:px-12 lg:px-20 py-10 lg:py-12" data-programme>
+    <header class="flex flex-col items-center gap-5 text-center">
+      <h2
+        class="font-display font-medium text-indigo leading-[1.05]"
+        style="font-size: clamp(40px, 5.5vw, 64px);"
+      >
+        Programme
+      </h2>
+
+      <div class="relative inline-flex gap-12 mt-1" role="tablist" aria-label="Choix du jour">
+        {programme.map((d) => (
+          <button
+            type="button"
+            role="tab"
+            data-day-tab={d.id}
+            class="relative pb-2 text-h3 font-sans font-medium text-ink-700 aria-selected:text-indigo"
+            aria-selected="false"
+            aria-controls={`panel-${d.id}`}
+          >
+            {d.label}
+          </button>
+        ))}
+        <span
+          data-day-underline
+          aria-hidden="true"
+          class="absolute left-0 bottom-0 h-[2px] bg-indigo"
+          style="width: 0; transform: translateX(0);"
+        ></span>
+      </div>
+    </header>
+
+    <div class="mt-8 lg:mt-10 relative">
+      {programme.map((d) => (
+        <div
+          id={`panel-${d.id}`}
+          data-day-panel={d.id}
+          role="tabpanel"
+          aria-labelledby={d.id}
+          hidden
+        >
+          <ol class="relative">
+            <span class="absolute top-3 bottom-3 left-[140px] md:left-[160px] w-px bg-indigo/20" aria-hidden="true"></span>
+            {d.items.map((item) => (
+              <li class="grid grid-cols-[130px_24px_1fr] md:grid-cols-[150px_28px_1fr] gap-x-3 md:gap-x-5 items-center py-2.5">
+                <div class="text-body md:text-body-lg font-semibold text-indigo">
+                  {item.time}
+                </div>
+                <div class="relative flex justify-center">
+                  <span class="timeline-dot"></span>
+                </div>
+                <article class="border border-ink-300 rounded-lg px-5 py-4 bg-cream flex gap-4 items-center">
+                  <div class="flex-1 min-w-0">
+                    <h3 class="font-sans font-bold text-h3 text-indigo leading-tight">{item.title}</h3>
+                    <ul class="mt-1.5 flex flex-col gap-0.5 text-body text-ink-700 list-disc list-inside marker:text-ink-700">
+                      {item.bullets.map((b) => <li>{b}</li>)}
+                    </ul>
+                  </div>
+                  <div class="hidden sm:block flex-none w-44 h-20 rounded-md overflow-hidden border border-ink-300/70">
+                    <ImageOrPlaceholder
+                      src={item.image}
+                      alt=""
+                      width={176}
+                      height={80}
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </div>
+
+    <div class="flex items-center justify-center gap-4 mt-6">
+      <button
+        type="button"
+        data-day-nav="prev"
+        aria-label="Jour précédent"
+        class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-indigo text-indigo"
+      >
+        <i class="ph ph-caret-left text-[18px]"></i>
+      </button>
+      <button
+        type="button"
+        data-day-nav="next"
+        aria-label="Jour suivant"
+        class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-indigo text-indigo"
+      >
+        <i class="ph ph-caret-right text-[18px]"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-day-tab].is-active { color: var(--indigo); }
+</style>

@@ -1,0 +1,30 @@
+---
+// Hero — always render the <video>. Browser falls back to the poster
+// frame if the source 404s or autoplay is blocked, so we don't need
+// build-time fs probing (which caches per dev-server boot and misses
+// videos added after start-up).
+const videoSrc  = '/images/hero.mp4';
+const posterUrl = '/images/hero-poster.svg';
+---
+
+<section
+  id="accueil"
+  data-hero
+  class="relative min-h-[100svh] w-full overflow-hidden bg-indigo"
+>
+  <!-- Background media -->
+  <div class="absolute inset-0">
+    <video
+      data-hero-video
+      class="w-full h-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster={posterUrl}
+    >
+      <source src={videoSrc} type="video/mp4" />
+    </video>
+  </div>
+</section>
