@@ -391,8 +391,13 @@ export function initProgrammeTabs() {
     root.querySelectorAll<HTMLElement>('[data-day-panel]')
   );
   const underline = root.querySelector<HTMLElement>('[data-day-underline]');
+  const ids = tabs.map((t) => t.dataset.dayTab!);
 
-  const setActive = (id: string) => {
+  let currentId: string | null = null;
+  let busy = false;
+  const reduce = reducedMotion();
+
+  const updateChrome = (id: string) => {
     tabs.forEach((t) => {
       const active = t.dataset.dayTab === id;
       t.setAttribute('aria-selected', active ? 'true' : 'false');
@@ -403,15 +408,67 @@ export function initProgrammeTabs() {
       const navRect = activeTab.parentElement!.getBoundingClientRect();
       const tabRect = activeTab.getBoundingClientRect();
       const x = tabRect.left - navRect.left;
-      underline.style.width = `${tabRect.width}px`;
-      underline.style.transform = `translateX(${x}px)`;
+      gsap.to(underline, {
+        width: tabRect.width,
+        x,
+        duration: reduce ? 0 : 0.45,
+        ease: 'power3.out'
+      });
     }
-    panels.forEach((p) => {
-      const match = p.dataset.dayPanel === id;
-      p.hidden = !match;
-      p.style.opacity = match ? '1' : '0';
-    });
-    ScrollTrigger.refresh();
+  };
+
+  const setActive = (id: string, animate = true) => {
+    if (id === currentId || busy) return;
+    updateChrome(id);
+
+    const outgoing = panels.find((p) => p.dataset.dayPanel === currentId);
+    const incoming = panels.find((p) => p.dataset.dayPanel === id);
+    if (!incoming) return;
+
+    const direction =
+      currentId && ids.indexOf(id) > ids.indexOf(currentId) ? 1 : -1;
+    const slide = 28;
+
+    if (!animate || reduce || !outgoing) {
+      panels.forEach((p) => {
+        const match = p.dataset.dayPanel === id;
+        p.hidden = !match;
+        gsap.set(p, { clearProps: 'all' });
+        p.style.opacity = match ? '1' : '0';
+      });
+      currentId = id;
+      ScrollTrigger.refresh();
+      return;
+    }
+
+    busy = true;
+    const items = incoming.querySelectorAll<HTMLElement>('li');
+
+    gsap
+      .timeline({
+        defaults: { ease: 'power3.out' },
+        onComplete: () => {
+          busy = false;
+          ScrollTrigger.refresh();
+        }
+      })
+      .to(outgoing, {
+        opacity: 0,
+        x: -slide * direction,
+        duration: 0.28,
+        ease: 'power2.in'
+      })
+      .set(outgoing, { hidden: true, clearProps: 'transform' })
+      .set(incoming, { hidden: false, opacity: 0, x: slide * direction })
+      .to(incoming, { opacity: 1, x: 0, duration: 0.42 })
+      .fromTo(
+        items,
+        { y: 14, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, stagger: 0.07 },
+        '-=0.3'
+      );
+
+    currentId = id;
   };
 
   tabs.forEach((t) => {
@@ -421,19 +478,16 @@ export function initProgrammeTabs() {
   root.querySelectorAll<HTMLButtonElement>('[data-day-nav]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const direction = btn.dataset.dayNav === 'next' ? 1 : -1;
-      const ids = tabs.map((t) => t.dataset.dayTab!);
-      const current = tabs.find((t) => t.classList.contains('is-active'))?.dataset.dayTab;
-      const idx = ids.indexOf(current ?? ids[0]);
+      const idx = ids.indexOf(currentId ?? ids[0]);
       const next = ids[(idx + direction + ids.length) % ids.length];
       setActive(next);
     });
   });
 
   const initial = tabs[0]?.dataset.dayTab;
-  if (initial) setActive(initial);
+  if (initial) setActive(initial, false);
   window.addEventListener('resize', () => {
-    const active = tabs.find((t) => t.classList.contains('is-active'))?.dataset.dayTab;
-    if (active) setActive(active);
+    if (currentId) updateChrome(currentId);
   });
 }
 
