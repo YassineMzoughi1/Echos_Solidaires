@@ -7,6 +7,17 @@ const blocks = [
   { icon: '/images/Contact/Icons/map.svg',     label: 'Location', value: contact.location, href: 'https://maps.google.com/?q=Tunis,+Tunisia' }
 ];
 
+const contactImagePool = [
+  '/images/Nos_Axes/1.jpg',
+  '/images/Nos_Axes/2.jpg',
+  '/images/Nos_Axes/3.jpg',
+  '/images/Nos_Axes/4.jpg',
+  '/images/programme/jour1_1.jpg',
+  '/images/programme/jour1_2.jpg',
+  '/images/programme/jour1_3.jpg'
+];
+const contactImage = contactImagePool[Math.floor(Math.random() * contactImagePool.length)];
+
 const fieldClass =
   'w-full h-14 px-5 bg-transparent border border-ink-300 rounded-md text-body text-ink-700 placeholder:text-ink-500 transition-colors duration-300 ease-editorial focus-visible:border-indigo focus:outline-none';
 ---
@@ -34,7 +45,15 @@ const fieldClass =
 
     <div class="mt-14 md:mt-16 relative">
       <div data-form-wrap class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-stretch">
-        <div class="bg-ink-300/40 rounded-md min-h-[360px] md:min-h-[440px]"></div>
+        <div class="overflow-hidden rounded-md min-h-[360px] md:min-h-[440px]">
+          <img
+            src={contactImage}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            class="w-full h-full object-cover"
+          />
+        </div>
 
         <form data-form novalidate class="flex flex-col gap-5">
           <input id="c-nom"     name="nom_complet" type="text"  placeholder="Nom & Prénom"  autocomplete="name"  required class={fieldClass} />

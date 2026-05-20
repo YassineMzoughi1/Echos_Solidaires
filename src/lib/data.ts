@@ -58,7 +58,7 @@ export const programme: ProgrammeDay[] = [
         bullets: [
           'Parcours guidé dans la palmeraie de Nefta'
         ],
-        image: '/images/programme/jour2_1.png'
+        image: '/images/programme/jour1_1.jpg'
       },
       {
         time: '11:30 → 14:00',
@@ -67,7 +67,7 @@ export const programme: ProgrammeDay[] = [
           'Pavillons des associations partenaires',
           'Pitches des projets candidats'
         ],
-        image: '/images/programme/jour2_2.png'
+        image: '/images/programme/jour1_2.jpg'
       },
       {
         time: '14:00 → 17:00',
@@ -76,7 +76,7 @@ export const programme: ProgrammeDay[] = [
           'Récits, malouf et créations partagées',
           'Concert au cœur de l’oasis'
         ],
-        image: '/images/programme/jour2_3.png'
+        image: '/images/programme/jour1_3.jpg'
       }
     ]
   }
