@@ -153,7 +153,7 @@ export const stats = [
   { value: 120,    suffix: '+',      label: 'Participants',  icon: 'users' },
   { value: 45,     suffix: '',       label: 'Associations',  icon: 'handshake' },
   { value: 800,    suffix: '',       label: 'Bénévoles',     icon: 'heart' },
-  { value: 150,    suffix: ' k DT',  label: 'Prix',          icon: 'trophy' }
+  { value: 3,      suffix: 'éme',    label: 'Edition',       icon: 'trophy' }
 ] as const;
 
 // ---------- Nav ----------
