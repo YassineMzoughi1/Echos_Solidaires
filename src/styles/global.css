@@ -144,7 +144,7 @@ textarea:focus-visible {
 
 /* ---------- Button: sweep hover ---------- */
 .btn-arc {
-  border-radius: 0 40px 0 40px;
+  border-radius: 0 999px 0 999px;
 }
 .btn-sweep {
   position: relative;
