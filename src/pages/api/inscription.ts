@@ -23,7 +23,6 @@ export const POST: APIRoute = async ({ request }) => {
     paiement:     getString(form, 'paiement', 40),
   };
 
-  // Validation
   if (!payload.nom || !payload.prenom) {
     return json({ error: 'Veuillez renseigner votre nom et prénom.' }, 400);
   }

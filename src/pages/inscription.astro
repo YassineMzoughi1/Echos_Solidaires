@@ -189,24 +189,13 @@ const fieldBase =
   </style>
 
   <script>
-    import { gsap } from 'gsap';
-
-    const reducedMotion = () =>
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     // Per-page wiring — re-runs on every view transition.
+    // The Astro <ViewTransitions /> fade already handles the page entrance;
+    // a second GSAP fade-in here was racing the view transition and adding
+    // ~800ms of perceived delay after every navigation to /inscription.
     function wireInscriptionPage() {
       const shell = document.querySelector<HTMLElement>('[data-inscription-shell]');
       if (!shell) return;
-
-      // Entrance animation: title + form drift up & fade in.
-      const title = shell.querySelector<HTMLElement>('[data-inscription-title]');
-      const form = shell.querySelector<HTMLElement>('[data-form-wrap]');
-      if (!reducedMotion() && title && form) {
-        gsap.set([title, form], { opacity: 0, y: 24 });
-        gsap.to(title, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' });
-        gsap.to(form,  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.12 });
-      }
 
       // Password visibility toggle
       const toggle = shell.querySelector<HTMLButtonElement>('[data-password-toggle]');
