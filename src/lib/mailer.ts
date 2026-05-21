@@ -1,6 +1,12 @@
 import nodemailer from 'nodemailer';
 
-const env = (key: string): string | undefined => process.env[key];
+// In Astro dev, `.env` is exposed via `import.meta.env`; on Vercel SSR runtime
+// it's also in `process.env`. Read from both so the same code path works in
+// both environments.
+const env = (key: string): string | undefined => {
+  const meta = (import.meta as { env?: Record<string, string | undefined> }).env;
+  return meta?.[key] ?? process.env[key];
+};
 
 function requireEnv(key: string): string {
   const v = env(key);

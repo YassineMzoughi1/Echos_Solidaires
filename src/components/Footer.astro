@@ -1,13 +1,18 @@
 ---
 import { navLinks, eventMeta, contact } from '../lib/data';
 
+const pathname = Astro.url.pathname.replace(/\/$/, '');
+const isHome = pathname === '' || pathname === '/index.html';
+
 const linkItems = [
   { href: '#a-propos',    label: 'A propos' },
   { href: '#programme',   label: 'Programme' },
   { href: '#initiatives', label: 'Initiatives' },
   { href: '#gallerie',    label: 'Gallerie' },
   { href: '#contact',     label: 'Contact' }
-];
+].map((l) => ({ ...l, href: isHome ? l.href : `/${l.href}` }));
+
+const logoHref = isHome ? '#accueil' : '/';
 ---
 
 <footer class="bg-cream">
@@ -18,7 +23,7 @@ const linkItems = [
     <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-10">
       <!-- Brand -->
       <div class="md:col-span-4" data-reveal>
-        <a href="#accueil" aria-label="Échos Solidaires — accueil" class="inline-block">
+        <a href={logoHref} aria-label="Échos Solidaires — accueil" class="inline-block">
           <img src="/images/logo.png" alt="أصداء — Échos Solidaires" width="256" height="256" loading="lazy" style="height: 72px; width: auto; display: block;" />
         </a>
         <p class="mt-8 text-[15px] text-[#1A2639] max-w-[42ch] leading-[1.8]">
