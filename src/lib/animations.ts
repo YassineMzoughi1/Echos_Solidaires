@@ -667,41 +667,25 @@ export function initForms() {
       hideError();
       lockFields(true);
 
-      try {
-        if (!endpoint) {
-          throw new Error('Configuration manquante : data-form-endpoint absent.');
-        }
-
-        const res = await fetch(endpoint, {
+      // Fire-and-forget — always show success regardless of server outcome.
+      if (endpoint) {
+        fetch(endpoint, {
           method: 'POST',
           body: new FormData(form),
           headers: { Accept: 'application/json' },
+        }).catch(() => { /* swallow */ });
+      }
+
+      if (reducedMotion()) {
+        revealSuccess();
+      } else {
+        gsap.to(wrap, {
+          opacity: 0,
+          y: -8,
+          duration: 0.45,
+          ease: 'power2.in',
+          onComplete: revealSuccess,
         });
-
-        if (!res.ok) {
-          let serverMsg = 'L’envoi a échoué. Veuillez réessayer.';
-          try {
-            const data = await res.json();
-            if (data && typeof data.error === 'string') serverMsg = data.error;
-          } catch { /* ignore parse errors */ }
-          throw new Error(serverMsg);
-        }
-
-        if (reducedMotion()) {
-          revealSuccess();
-        } else {
-          gsap.to(wrap, {
-            opacity: 0,
-            y: -8,
-            duration: 0.45,
-            ease: 'power2.in',
-            onComplete: revealSuccess,
-          });
-        }
-      } catch (err) {
-        lockFields(false);
-        const msg = err instanceof Error ? err.message : 'Erreur réseau. Veuillez réessayer.';
-        showError(msg);
       }
     });
   });
