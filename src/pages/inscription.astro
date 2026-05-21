@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 
 const paymentOptions = [
   { value: 'cb',       label: 'Carte bancaire' },
@@ -158,6 +159,7 @@ const fieldBase =
       </div>
     </section>
   </main>
+  <Footer />
 
   <style>
     /* Submit button loading state */
