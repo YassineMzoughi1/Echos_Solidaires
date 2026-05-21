@@ -17,7 +17,7 @@ import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
   <!-- Native horizontal scroll only (no vertical-scroll pinning). -->
   <div
     data-initiatives-scroller
-    class="overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory"
+    class="overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-mandatory cursor-grab select-none"
   >
     <div
       data-initiatives-track
@@ -85,4 +85,57 @@ import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
       scroll-padding-inline-start: max(5rem, calc((100vw - 1280px) / 2 + 5rem));
     }
   }
+  [data-initiatives-scroller].is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+  [data-initiatives-scroller].is-dragging a,
+  [data-initiatives-scroller].is-dragging img {
+    pointer-events: none;
+  }
 </style>
+
+<script>
+  const scroller = document.querySelector<HTMLElement>('[data-initiatives-scroller]');
+  if (scroller) {
+    let isDown = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let moved = false;
+
+    scroller.addEventListener('mousedown', (e) => {
+      isDown = true;
+      moved = false;
+      startX = e.pageX;
+      startScrollLeft = scroller.scrollLeft;
+      scroller.classList.add('is-dragging');
+    });
+
+    const stop = () => {
+      if (!isDown) return;
+      isDown = false;
+      scroller.classList.remove('is-dragging');
+    };
+
+    scroller.addEventListener('mouseleave', stop);
+    window.addEventListener('mouseup', stop);
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 3) moved = true;
+      scroller.scrollLeft = startScrollLeft - dx;
+    });
+
+    // Prevent click after drag (so card links don't fire on drag-release).
+    scroller.addEventListener('click', (e) => {
+      if (moved) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
+
+    // Prevent native image drag from stealing the gesture.
+    scroller.addEventListener('dragstart', (e) => e.preventDefault());
+  }
+</script>
