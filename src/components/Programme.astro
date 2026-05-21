@@ -20,7 +20,7 @@ import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
             type="button"
             role="tab"
             data-day-tab={d.id}
-            class="relative pb-2 text-h3 font-sans font-medium text-ink-700 aria-selected:text-indigo"
+            class="relative pb-2 text-h3 font-sans font-medium text-ink-700 aria-selected:text-[#C96C4B]"
             aria-selected="false"
             aria-controls={`panel-${d.id}`}
           >
@@ -30,7 +30,7 @@ import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
         <span
           data-day-underline
           aria-hidden="true"
-          class="absolute left-0 bottom-0 h-[2px] bg-indigo"
+          class="absolute left-0 bottom-0 h-[2px] bg-[#C96C4B]"
           style="width: 0; transform: translateX(0);"
         ></span>
       </div>
@@ -104,5 +104,5 @@ import ImageOrPlaceholder from './ui/ImageOrPlaceholder.astro';
 </section>
 
 <style>
-  [data-day-tab].is-active { color: var(--indigo); }
+  [data-day-tab].is-active { color: #C96C4B; }
 </style>
