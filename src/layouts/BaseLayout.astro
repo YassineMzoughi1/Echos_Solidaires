@@ -3,6 +3,7 @@ import '@fontsource-variable/inter/index.css';
 import '@fontsource-variable/cormorant-garamond/index.css';
 import '@phosphor-icons/web/regular';
 import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
 import fs from 'node:fs';
 import path from 'node:path';
 import { eventMeta } from '../lib/data';
@@ -79,6 +80,8 @@ const eventJsonLd = {
     <meta name="twitter:image" content={ogImage} />
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(eventJsonLd)} />
+
+    <ViewTransitions />
   </head>
   <body class="bg-cream text-ink-700 antialiased">
     <a class="skip-link" href="#a-propos">Aller au contenu</a>
@@ -116,11 +119,10 @@ const eventJsonLd = {
         initAboutParallax();
       };
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot, { once: true });
-      } else {
-        boot();
-      }
+      // `astro:page-load` fires after the initial DOM load AND after every
+      // view transition — so all per-page wiring (Lenis, nav, reveals, forms…)
+      // re-runs when navigating between routes.
+      document.addEventListener('astro:page-load', boot);
     </script>
   </body>
 </html>
