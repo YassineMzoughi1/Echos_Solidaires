@@ -1,0 +1,234 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const paymentOptions = [
+  { value: 'cb',       label: 'Carte bancaire' },
+  { value: 'd17',      label: 'D17 / Mobile money' },
+  { value: 'virement', label: 'Virement bancaire' },
+  { value: 'place',    label: 'Paiement sur place' }
+];
+
+const fieldBase =
+  'w-full h-16 px-6 bg-transparent border-2 border-indigo rounded-md font-sans text-body text-ink-700 placeholder:text-ink-500 transition-colors duration-300 ease-editorial focus-visible:border-argile';
+---
+
+<BaseLayout title="Inscription — Échos Solidaires">
+  <Nav />
+
+  <main id="contenu" class="bg-cream pt-32 md:pt-36">
+    <section class="max-w-content mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-20 lg:py-24">
+      <header class="flex flex-col items-center text-center gap-4 mb-12 md:mb-16">
+        <a
+          href="/"
+          class="self-start inline-flex items-center gap-2 text-ink-500 hover:text-indigo text-body-sm font-medium transition-colors"
+        >
+          <i class="ph ph-arrow-left text-[16px]"></i>
+          Retour à l’accueil
+        </a>
+        <h1
+          class="font-sans font-bold text-argile leading-[1.05]"
+          style="font-size: clamp(48px, 8vw, 96px);"
+          data-reveal
+        >
+          Formulaire
+        </h1>
+      </header>
+
+      <form
+        data-form
+        novalidate
+        class="grid grid-cols-1 md:grid-cols-2 gap-x-10 lg:gap-x-16 gap-y-6 max-w-5xl mx-auto"
+        aria-describedby="form-help"
+      >
+        <div>
+          <label for="f-nom" class="sr-only">Nom</label>
+          <input
+            id="f-nom"
+            name="nom"
+            type="text"
+            placeholder="Nom"
+            autocomplete="family-name"
+            required
+            class={fieldBase}
+          />
+        </div>
+
+        <div>
+          <label for="f-prenom" class="sr-only">Prénom</label>
+          <input
+            id="f-prenom"
+            name="prenom"
+            type="text"
+            placeholder="Prénom"
+            autocomplete="given-name"
+            required
+            class={fieldBase}
+          />
+        </div>
+
+        <div>
+          <label for="f-adresse" class="sr-only">Adresse</label>
+          <input
+            id="f-adresse"
+            name="adresse"
+            type="text"
+            placeholder="Adresse"
+            autocomplete="street-address"
+            class={fieldBase}
+          />
+        </div>
+
+        <div>
+          <label for="f-tel" class="sr-only">Numéro de téléphone</label>
+          <input
+            id="f-tel"
+            name="telephone"
+            type="tel"
+            placeholder="Num Tel"
+            autocomplete="tel"
+            required
+            class={fieldBase}
+          />
+        </div>
+
+        <div class="relative">
+          <label for="f-password" class="sr-only">Mot de passe</label>
+          <input
+            id="f-password"
+            name="password"
+            type="password"
+            placeholder="Mot de Passe"
+            autocomplete="new-password"
+            required
+            class={fieldBase + ' pr-14'}
+            data-password-input
+          />
+          <button
+            type="button"
+            data-password-toggle
+            aria-label="Afficher le mot de passe"
+            aria-pressed="false"
+            class="absolute right-5 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-9 h-9 text-indigo hover:text-argile transition-colors"
+          >
+            <i class="ph ph-eye-slash text-[22px]" data-password-icon></i>
+          </button>
+        </div>
+
+        <div>
+          <label for="f-email" class="sr-only">Adresse email</label>
+          <input
+            id="f-email"
+            name="email"
+            type="email"
+            placeholder="Adresse"
+            autocomplete="email"
+            required
+            class={fieldBase}
+          />
+        </div>
+
+        <div>
+          <label for="f-participants" class="sr-only">Nombre de participants</label>
+          <input
+            id="f-participants"
+            name="participants"
+            type="number"
+            min="1"
+            placeholder="Nombre de participants"
+            class={fieldBase}
+          />
+        </div>
+
+        <div class="relative">
+          <label for="f-paiement" class="sr-only">Mode de paiement</label>
+          <select
+            id="f-paiement"
+            name="paiement"
+            required
+            class={fieldBase + ' appearance-none pr-14 text-ink-500'}
+            data-select
+          >
+            <option value="" disabled selected>Mode de paiement</option>
+            {paymentOptions.map((o) => (
+              <option value={o.value} class="text-ink-700">{o.label}</option>
+            ))}
+          </select>
+          <i class="ph ph-caret-down absolute right-5 top-1/2 -translate-y-1/2 text-indigo pointer-events-none text-[20px]"></i>
+        </div>
+
+        <div class="md:col-span-2 flex flex-col items-center gap-4 mt-6 md:mt-10">
+          <button
+            type="submit"
+            class="group inline-flex items-center justify-center gap-3 bg-indigo text-cream hover:opacity-90 font-sans font-bold text-body uppercase tracking-[0.18em] btn-arc h-16 px-24 md:px-32 transition-all duration-300 ease-editorial"
+          >
+            Inscription
+          </button>
+          <p id="form-help" class="text-body-sm text-ink-500 text-center max-w-[52ch]">
+            Vos données restent confidentielles et ne sont utilisées que pour
+            l’organisation de l’événement.
+          </p>
+        </div>
+      </form>
+
+      <!-- Success card (revealed after submit by initForms) -->
+      <div
+        data-form-success
+        hidden
+        class="mt-12 max-w-3xl mx-auto bg-sable rounded-lg border border-ink-300/50 px-8 py-12 md:py-16 text-center flex flex-col items-center gap-5"
+      >
+        <span class="inline-flex items-center justify-center w-12 h-12 rounded-full border border-oasis text-oasis" aria-hidden="true">
+          <i class="ph ph-check text-[22px]"></i>
+        </span>
+        <h2
+          class="font-sans font-bold text-forest leading-[1.15]"
+          style="font-size: clamp(28px, 4vw, 40px);"
+        >
+          Merci. Votre inscription a été reçue.
+        </h2>
+        <p class="text-body text-ink-700 max-w-[48ch]">
+          Un message de confirmation vous parviendra prochainement à l’adresse
+          que vous avez renseignée.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script>
+    // Password visibility toggle
+    const toggle = document.querySelector<HTMLButtonElement>('[data-password-toggle]');
+    const input = document.querySelector<HTMLInputElement>('[data-password-input]');
+    const icon = document.querySelector<HTMLElement>('[data-password-icon]');
+    if (toggle && input && icon) {
+      toggle.addEventListener('click', () => {
+        const hidden = input.type === 'password';
+        input.type = hidden ? 'text' : 'password';
+        toggle.setAttribute('aria-pressed', String(hidden));
+        toggle.setAttribute(
+          'aria-label',
+          hidden ? 'Masquer le mot de passe' : 'Afficher le mot de passe'
+        );
+        icon.className = hidden ? 'ph ph-eye text-[22px]' : 'ph ph-eye-slash text-[22px]';
+      });
+    }
+
+    // Keep select placeholder styled until a real value is picked
+    const select = document.querySelector<HTMLSelectElement>('[data-select]');
+    if (select) {
+      const sync = () => {
+        if (select.value === '') {
+          select.classList.add('text-ink-500');
+          select.classList.remove('text-ink-700');
+        } else {
+          select.classList.remove('text-ink-500');
+          select.classList.add('text-ink-700');
+        }
+      };
+      sync();
+      select.addEventListener('change', sync);
+    }
+  </script>
+</BaseLayout>
