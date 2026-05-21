@@ -20,11 +20,11 @@ const {
 } = Astro.props;
 
 const base =
-  'inline-flex items-center justify-center gap-3 font-sans font-semibold text-body-sm uppercase tracking-[0.15em] rounded-md h-12 px-7 transition-colors duration-400 ease-editorial';
+  'inline-flex items-center justify-center gap-3 font-sans font-semibold text-body-sm uppercase tracking-[0.15em] rounded-xl h-12 px-7 transition-all duration-300 ease-editorial';
 
 const variantCls = {
-  primary: 'btn-sweep bg-indigo text-cream',
-  ghost:   'border border-indigo text-indigo hover:bg-indigo hover:text-cream',
+  primary: 'bg-forest text-cream border-2 border-indigo shadow-[4px_4px_0_0_#1A2639] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_#1A2639]',
+  ghost:   'border border-indigo text-indigo hover:bg-indigo hover:text-cream rounded-md',
   sweep:   'btn-sweep bg-indigo text-cream'
 }[variant];
 

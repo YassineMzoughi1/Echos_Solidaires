@@ -12,6 +12,7 @@ export default {
       indigo: '#1A2639',
       argile: '#C84B31',
       oasis: '#99C78C',
+      forest: '#3F6B52',
       ocre: '#DDA13E',
       info: '#3B82F6',
       success: '#10B981',
