@@ -18,14 +18,21 @@ let cached: nodemailer.Transporter | null = null;
 
 function getTransporter(): nodemailer.Transporter {
   if (cached) return cached;
+  const port = Number(env('SMTP_PORT') ?? '587');
   cached = nodemailer.createTransport({
     host: requireEnv('SMTP_HOST'),
-    port: Number(env('SMTP_PORT') ?? '465'),
-    secure: (env('SMTP_SECURE') ?? 'true') === 'true',
+    port,
+    secure: (env('SMTP_SECURE') ?? 'false') === 'true',
+    requireTLS: port === 587,
     auth: {
       user: requireEnv('SMTP_USER'),
       pass: requireEnv('SMTP_PASS'),
     },
+    // Vercel serverless functions kill long sockets — keep timeouts tight
+    // and the connection short-lived.
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 15_000,
   });
   return cached;
 }
