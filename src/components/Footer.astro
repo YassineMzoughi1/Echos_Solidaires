@@ -122,49 +122,90 @@ const linkItems = [
 </footer>
 
 <script>
-  // Simple script to handle newsletter form animation
-  const forms = document.querySelectorAll('[data-newsletter-form]');
-  
-  forms.forEach((form) => {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const formEl = e.currentTarget as HTMLFormElement;
-      const input = formEl.querySelector('[data-newsletter-input]') as HTMLInputElement;
-      const btn = formEl.querySelector('[data-newsletter-btn]') as HTMLButtonElement;
-      
-      if (!input.value || !input.checkValidity()) {
-        input.reportValidity();
-        return;
-      }
-      
-      const text = btn.querySelector('[data-btn-text]') as HTMLElement;
-      const loader = btn.querySelector('[data-btn-loader]') as HTMLElement;
-      const success = btn.querySelector('[data-btn-success]') as HTMLElement;
-      
-      // 1. Loading State
-      text.style.opacity = '0';
-      loader.style.opacity = '1';
-      input.disabled = true;
-      btn.disabled = true;
-      
-      // 2. Simulate API Call (1.5 seconds)
-      setTimeout(() => {
-        // 3. Success State
-        loader.style.opacity = '0';
-        success.style.opacity = '1';
-        input.value = ''; // Empty the field
-        
-        // 4. Reset after 2.5 seconds
-        setTimeout(() => {
-          success.style.opacity = '0';
-          text.style.opacity = '1';
+  // Newsletter form — POST email to /api/newsletter, with loading + result UX.
+  // Re-runs on every Astro view transition.
+  function wireNewsletter() {
+    document.querySelectorAll<HTMLFormElement>('[data-newsletter-form]').forEach((form) => {
+      if (form.dataset.bound === '1') return;
+      form.dataset.bound = '1';
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const input   = form.querySelector('[data-newsletter-input]') as HTMLInputElement | null;
+        const btn     = form.querySelector('[data-newsletter-btn]')   as HTMLButtonElement | null;
+        const text    = btn?.querySelector('[data-btn-text]')         as HTMLElement | null;
+        const loader  = btn?.querySelector('[data-btn-loader]')       as HTMLElement | null;
+        const success = btn?.querySelector('[data-btn-success]')      as HTMLElement | null;
+        const msg     = form.parentElement?.querySelector('[data-newsletter-msg]') as HTMLElement | null;
+        if (!input || !btn || !text || !loader || !success) return;
+
+        if (!input.value || !input.checkValidity()) {
+          input.reportValidity();
+          return;
+        }
+
+        const showMessage = (note: string, kind: 'ok' | 'err') => {
+          if (!msg) return;
+          msg.textContent = note;
+          msg.style.color = kind === 'ok' ? '#3F6B52' : '#C84B31';
+          msg.style.opacity = '1';
+        };
+        const clearMessage = () => { if (msg) { msg.style.opacity = '0'; } };
+
+        clearMessage();
+        text.style.opacity   = '0';
+        loader.style.opacity = '1';
+        input.disabled = true;
+        btn.disabled   = true;
+
+        const restoreIdle = () => {
+          loader.style.opacity = '0';
+          text.style.opacity   = '1';
           input.disabled = false;
-          btn.disabled = false;
-        }, 2500);
-      }, 1500);
+          btn.disabled   = false;
+        };
+
+        try {
+          const body = new FormData();
+          body.append('email', input.value);
+          const res = await fetch('/api/newsletter', {
+            method: 'POST',
+            body,
+            headers: { Accept: 'application/json' },
+          });
+
+          if (!res.ok) {
+            let serverErr = 'L’envoi a échoué. Veuillez réessayer.';
+            try {
+              const data = await res.json();
+              if (data && typeof data.error === 'string') serverErr = data.error;
+            } catch { /* ignore */ }
+            restoreIdle();
+            showMessage(serverErr, 'err');
+            return;
+          }
+
+          // Success: swap loader → check, clear field, then restore idle.
+          loader.style.opacity  = '0';
+          success.style.opacity = '1';
+          input.value = '';
+          showMessage('Merci. Vous serez tenu(e) informé(e) de nos prochains événements.', 'ok');
+
+          window.setTimeout(() => {
+            success.style.opacity = '0';
+            restoreIdle();
+          }, 2500);
+        } catch (err) {
+          restoreIdle();
+          showMessage('Erreur réseau. Veuillez réessayer.', 'err');
+          console.error('[newsletter] network error', err);
+        }
+      });
     });
-  });
+  }
+
+  document.addEventListener('astro:page-load', wireNewsletter);
 </script>
 
 <style>

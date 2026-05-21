@@ -82,25 +82,6 @@ const logoHref = isHome ? '#accueil' : '/';
   </div>
 </aside>
 
-<script>
-  import { getLenis } from '../lib/lenis';
-
-  const logo = document.querySelector<HTMLAnchorElement>('a[data-logo]');
-  logo?.addEventListener('click', (event) => {
-    const href = logo.getAttribute('href') ?? '';
-    if (!href.startsWith('#')) return;
-    event.preventDefault();
-    event.stopPropagation();
-    const lenis = getLenis();
-    if (lenis) {
-      lenis.scrollTo(0, { duration: 1.4 });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
-  });
-</script>
-
 <style>
   [data-nav].is-scrolled [data-nav-border] {
     opacity: 1;
