@@ -118,7 +118,7 @@ export const initiatives: Initiative[] = [
     title: 'Soirée Concert',
     description:
       'Une scène ouverte sous les palmiers, libre d’accès, pour célébrer ensemble la clôture de l’événement.',
-    image: '/images/Nos_Axes/1.jpg'
+    image: '/images/Nos_Axes/5.jpg'
   }
 ];
 
@@ -132,12 +132,12 @@ export type GalleryItem = {
 };
 
 export const gallery: GalleryItem[] = [
-  { src: '/images/Nos_Axes/1.jpg',        alt: 'Sessions Climat — diagnostic des territoires oasiens', category: 'conferences', ratio: 'square'    },
-  { src: '/images/Nos_Axes/3.jpg',        alt: 'Ateliers & Agora — co-construction collective',        category: 'ateliers',    ratio: 'square'    },
-  { src: '/images/programme/jour1_1.jpg', alt: 'Ouverture & enjeux climatiques de l’oasis',            category: 'conferences', ratio: 'landscape' },
-  { src: '/images/Nos_Axes/2.jpg',        alt: 'Artisanat, innovation & expositions du sud tunisien',  category: 'expositions', ratio: 'landscape' },
-  { src: '/images/programme/jour1_2.jpg', alt: 'IA au service de l’Oasis & pause méridienne',          category: 'autres',      ratio: 'square'    },
-  { src: '/images/Nos_Axes/4.jpg',        alt: 'Veillée culturelle sous les étoiles de Nefta',         category: 'autres',      ratio: 'square'    }
+  { src: '/images/Gallerie/gallerie1.jpg', alt: 'Sessions Climat — diagnostic des territoires oasiens', category: 'conferences', ratio: 'square'    },
+  { src: '/images/Gallerie/gallerie2.jpg', alt: 'Ateliers & Agora — co-construction collective',        category: 'ateliers',    ratio: 'square'    },
+  { src: '/images/Gallerie/gallerie3.jpg', alt: 'Ouverture & enjeux climatiques de l’oasis',            category: 'conferences', ratio: 'landscape' },
+  { src: '/images/Gallerie/gallerie4.jpg', alt: 'Artisanat, innovation & expositions du sud tunisien',  category: 'expositions', ratio: 'landscape' },
+  { src: '/images/Gallerie/gallerie5.jpg', alt: 'IA au service de l’Oasis & pause méridienne',          category: 'autres',      ratio: 'square'    },
+  { src: '/images/Gallerie/gallerie6.jpg', alt: 'Veillée culturelle sous les étoiles de Nefta',         category: 'autres',      ratio: 'square'    }
 ];
 
 export const galleryFilters = [
