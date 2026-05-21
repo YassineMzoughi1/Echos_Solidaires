@@ -21,22 +21,48 @@ const linkItems = [
         <a href="#accueil" aria-label="Échos Solidaires — accueil" class="inline-block">
           <img src="/images/logo.png" alt="أصداء — Échos Solidaires" width="256" height="256" loading="lazy" style="height: 72px; width: auto; display: block;" />
         </a>
-        <p class="mt-8 text-caption text-indigo/80 max-w-[40ch] leading-[1.8]" style="font-size: 13px;">
-          Échos Solidaires – <span lang="ar" dir="rtl">أصداء</span> rassemble
-          acteurs locaux, jeunes, artisans et porteurs d’initiatives autour du
-          climat, du patrimoine et des solidarités territoriales à Nefta.
+        <p class="mt-8 text-[15px] text-[#1A2639] max-w-[42ch] leading-[1.8]">
+          Échos Solidaires – <span lang="ar" dir="rtl">أصداء</span> rassemble acteurs locaux, jeunes,
+          artisans et porteurs d'initiatives autour du climat, du
+          patrimoine et des solidarités territoriales à Nefta.
         </p>
+
+        <!-- Social Icons (Moved beneath paragraph as in screenshot) -->
+        <ul class="mt-8 flex items-center gap-4">
+          <li>
+            <a
+              href="https://www.facebook.com/profile.php?id=61581719152747"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              class="inline-flex transition-transform duration-300 ease-editorial hover:scale-105"
+            >
+              <img src="/images/Footer/Facebook.svg" alt="" width="36" height="36" />
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.instagram.com/echos_solidaires/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              class="inline-flex transition-transform duration-300 ease-editorial hover:scale-105"
+            >
+              <img src="/images/Footer/Insta.svg" alt="" width="36" height="36" />
+            </a>
+          </li>
+        </ul>
       </div>
 
       <!-- Liens -->
-      <nav class="md:col-span-3" aria-label="Plan du site" data-reveal>
-        <p class="font-sans font-semibold text-body-sm text-indigo">Liens</p>
-        <ul class="mt-7 flex flex-col gap-5">
+      <nav class="md:col-span-3 md:col-start-6" aria-label="Plan du site" data-reveal>
+        <p class="font-sans font-bold text-[18px] text-[#3F6B52]">Liens</p>
+        <ul class="mt-5 flex flex-col gap-3">
           {linkItems.map((l) => (
             <li>
               <a
                 href={l.href}
-                class="text-body-sm text-indigo hover:text-argile transition-colors duration-300 ease-editorial"
+                class="text-[15px] text-[#1A2639] hover:text-[#C96C4B] transition-colors duration-300 ease-editorial"
               >
                 {l.label}
               </a>
@@ -45,55 +71,34 @@ const linkItems = [
         </ul>
       </nav>
 
-      <!-- Infos pratiques -->
-      <div class="md:col-span-2" data-reveal>
-        <p class="font-sans font-semibold text-body-sm text-indigo">Infos pratiques</p>
-        <ul class="mt-7 flex flex-col gap-5 text-body-sm text-indigo/80">
-          <li>{eventMeta.date}</li>
-          <li>{eventMeta.location}</li>
-          <li>{contact.email}</li>
-        </ul>
-      </div>
-
       <!-- Newsletter -->
-      <div class="md:col-span-3" data-reveal>
-        <p class="font-sans font-semibold text-body-sm text-indigo">Newsletter</p>
-        <p class="mt-7 text-body-sm text-indigo/80 leading-relaxed max-w-[28ch]">
-          Restez informé de nos actualitées et prochains evenements
+      <div class="md:col-span-4" data-reveal>
+        <p class="font-sans font-bold text-[18px] text-[#3F6B52]">Newsletter</p>
+        <p class="mt-5 text-[15px] text-[#1A2639] leading-relaxed max-w-[32ch]">
+          Restez informé de nos actualitées<br/>et prochains evenements
         </p>
+        <form class="mt-6 flex gap-3 h-[50px]" novalidate>
+          <input
+            type="email"
+            placeholder="Enter your Email"
+            class="flex-1 w-full bg-transparent border border-gray-400 rounded-lg px-4 text-[#1A2639] placeholder:text-gray-500 focus:outline-none focus:border-[#3F6B52]"
+            required
+          />
+          <button
+            type="submit"
+            class="bg-[#1A2639] text-white px-8 rounded-lg rounded-tl-none font-sans font-semibold text-[17px] hover:opacity-90 transition-opacity"
+          >
+            Envoyer
+          </button>
+        </form>
       </div>
     </div>
 
     <hr class="mt-16 border-0 border-t border-ink-300" />
 
-    <div class="mt-6 flex flex-col-reverse md:flex-row items-start md:items-center justify-between gap-4">
-      <ul class="flex items-center gap-4">
-        <li>
-          <a
-            href="https://www.facebook.com/profile.php?id=61581719152747"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-            class="inline-flex transition-opacity duration-300 ease-editorial hover:opacity-80"
-          >
-            <img src="/images/Footer/Facebook.svg" alt="" width="28" height="28" />
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.instagram.com/echos_solidaires/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            class="inline-flex transition-opacity duration-300 ease-editorial hover:opacity-80"
-          >
-            <img src="/images/Footer/Insta.svg" alt="" width="28" height="28" />
-          </a>
-        </li>
-      </ul>
-
-      <p class="flex items-center gap-2 text-body-sm text-indigo/80">
-        <img src="/images/Footer/c.svg" alt="©" width="20" height="20" class="inline-block" />
+    <div class="mt-8 pt-8 flex justify-center">
+      <p class="flex items-center gap-2 text-[14px] text-[#1A2639] font-medium">
+        <img src="/images/Footer/c.svg" alt="©" width="22" height="22" class="inline-block" />
         <span>Login Challege 2026 - Collège Lasalle-Tunis. All rights reserved</span>
       </p>
     </div>
