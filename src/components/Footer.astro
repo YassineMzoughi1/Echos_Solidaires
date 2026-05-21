@@ -77,18 +77,26 @@ const linkItems = [
         <p class="mt-5 text-[15px] text-[#1A2639] leading-relaxed max-w-[32ch]">
           Restez informé de nos actualitées<br/>et prochains evenements
         </p>
-        <form class="mt-6 flex gap-3 h-[50px]" novalidate>
+        <form data-newsletter-form class="mt-6 flex gap-3 h-[50px]">
           <input
+            data-newsletter-input
             type="email"
             placeholder="Enter your Email"
-            class="flex-1 w-full bg-transparent border border-gray-400 rounded-lg px-4 text-[#1A2639] placeholder:text-gray-500 focus:outline-none focus:border-[#3F6B52]"
+            class="flex-1 w-full bg-transparent border border-gray-400 rounded-lg px-4 text-[#1A2639] placeholder:text-gray-500 focus:outline-none focus:border-[#3F6B52] transition-colors disabled:opacity-50"
             required
           />
           <button
+            data-newsletter-btn
             type="submit"
-            class="bg-[#1A2639] text-white px-8 rounded-lg rounded-tl-none font-sans font-semibold text-[17px] hover:opacity-90 transition-opacity"
+            class="relative inline-flex items-center justify-center bg-[#1A2639] text-white w-[130px] rounded-lg rounded-tl-none font-sans font-semibold text-[17px] hover:opacity-90 transition-all disabled:opacity-90 disabled:cursor-not-allowed overflow-hidden"
           >
-            Envoyer
+            <span data-btn-text class="transition-opacity duration-300">Envoyer</span>
+            <span data-btn-loader class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+              <span class="newsletter-spinner"></span>
+            </span>
+            <span data-btn-success class="absolute inset-0 flex items-center justify-center gap-2 opacity-0 pointer-events-none transition-opacity duration-300 text-[#99C78C]">
+              <i class="ph ph-check-circle text-[22px]"></i>
+            </span>
           </button>
         </form>
       </div>
@@ -104,3 +112,63 @@ const linkItems = [
     </div>
   </div>
 </footer>
+
+<script>
+  // Simple script to handle newsletter form animation
+  const forms = document.querySelectorAll('[data-newsletter-form]');
+  
+  forms.forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const formEl = e.currentTarget as HTMLFormElement;
+      const input = formEl.querySelector('[data-newsletter-input]') as HTMLInputElement;
+      const btn = formEl.querySelector('[data-newsletter-btn]') as HTMLButtonElement;
+      
+      if (!input.value || !input.checkValidity()) {
+        input.reportValidity();
+        return;
+      }
+      
+      const text = btn.querySelector('[data-btn-text]') as HTMLElement;
+      const loader = btn.querySelector('[data-btn-loader]') as HTMLElement;
+      const success = btn.querySelector('[data-btn-success]') as HTMLElement;
+      
+      // 1. Loading State
+      text.style.opacity = '0';
+      loader.style.opacity = '1';
+      input.disabled = true;
+      btn.disabled = true;
+      
+      // 2. Simulate API Call (1.5 seconds)
+      setTimeout(() => {
+        // 3. Success State
+        loader.style.opacity = '0';
+        success.style.opacity = '1';
+        input.value = ''; // Empty the field
+        
+        // 4. Reset after 2.5 seconds
+        setTimeout(() => {
+          success.style.opacity = '0';
+          text.style.opacity = '1';
+          input.disabled = false;
+          btn.disabled = false;
+        }, 2500);
+      }, 1500);
+    });
+  });
+</script>
+
+<style>
+  .newsletter-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: n-spin 0.8s linear infinite;
+  }
+  @keyframes n-spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
