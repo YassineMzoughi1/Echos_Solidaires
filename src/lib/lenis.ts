@@ -47,10 +47,16 @@ export function initLenis(): Lenis | null {
       if (!link) return;
       const hash = link.getAttribute('href');
       if (!hash || hash === '#') return;
-      const dest = document.querySelector(hash);
+      const dest = document.querySelector(hash) as HTMLElement | null;
       if (!dest) return;
       event.preventDefault();
-      lenis?.scrollTo(dest as HTMLElement, { offset: -80, duration: 1.4 });
+      // Compute absolute target Y manually and clamp at 0 — passing a
+      // negative offset to lenis.scrollTo(element, …) for a section that
+      // already sits at the document top (e.g. logo → #accueil) leaves
+      // the scroll stuck short of the real top.
+      const destTop = dest.getBoundingClientRect().top + window.scrollY;
+      const targetY = Math.max(0, destTop - 80);
+      lenis?.scrollTo(targetY, { duration: 1.4 });
       if (history.replaceState) history.replaceState(null, '', hash);
     },
     { passive: false }
