@@ -56,7 +56,16 @@ const fieldClass =
           />
         </div>
 
-        <form data-form novalidate class="flex flex-col gap-5" data-reveal data-reveal-stagger="80">
+        <form
+          data-form
+          data-form-endpoint="/api/contact"
+          method="post"
+          action="/api/contact"
+          novalidate
+          class="flex flex-col gap-5"
+          data-reveal
+          data-reveal-stagger="80"
+        >
           <input id="c-nom"     name="nom_complet" type="text"  placeholder="Nom & Prénom"  autocomplete="name"  required class={fieldClass} />
           <input id="c-email"   name="email"       type="email" placeholder="Adresse Email" autocomplete="email" required class={fieldClass} />
           <textarea id="c-message" name="message" placeholder="Message" rows={6} required class={`${fieldClass} h-auto py-4 leading-relaxed resize-vertical`}></textarea>
@@ -74,6 +83,14 @@ const fieldClass =
               <span>Envoi en cours</span>
             </span>
           </button>
+
+          <p
+            data-form-error
+            role="alert"
+            hidden
+            class="text-body-sm font-medium text-[#C84B31] bg-[#C84B31]/10 border border-[#C84B31]/30 rounded-md px-4 py-3"
+            style="display: none;"
+          ></p>
         </form>
       </div>
 

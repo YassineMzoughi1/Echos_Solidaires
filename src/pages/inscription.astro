@@ -37,6 +37,9 @@ const fieldBase =
           <form
             data-form
             data-form-wrap
+            data-form-endpoint="/api/inscription"
+            method="post"
+            action="/api/inscription"
             novalidate
             class="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-4 md:gap-y-5"
             aria-describedby="form-help"
@@ -127,6 +130,15 @@ const fieldBase =
               </p>
             </div>
           </form>
+
+          <!-- Inline error slot (revealed by initForms() on failed submit) -->
+          <p
+            data-form-error
+            role="alert"
+            hidden
+            class="mt-5 mx-auto max-w-xl text-center text-body-sm font-medium text-[#C84B31] bg-[#C84B31]/10 border border-[#C84B31]/30 rounded-md px-4 py-3"
+            style="display: none;"
+          ></p>
 
           <!-- Success state — swapped in by initForms() after submit -->
           <div

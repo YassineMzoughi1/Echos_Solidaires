@@ -77,11 +77,13 @@ const linkItems = [
         <p class="mt-5 text-[15px] text-[#1A2639] leading-relaxed max-w-[32ch]">
           Restez informé de nos actualitées<br/>et prochains evenements
         </p>
-        <form data-newsletter-form class="mt-6 flex gap-3 h-[50px]">
+        <form data-newsletter-form method="post" action="/api/newsletter" class="mt-6 flex gap-3 h-[50px]">
           <input
             data-newsletter-input
+            name="email"
             type="email"
-            placeholder="Enter your Email"
+            placeholder="Votre adresse email"
+            autocomplete="email"
             class="flex-1 w-full bg-transparent border border-gray-400 rounded-lg px-4 text-[#1A2639] placeholder:text-gray-500 focus:outline-none focus:border-[#3F6B52] transition-colors disabled:opacity-50"
             required
           />
@@ -99,6 +101,12 @@ const linkItems = [
             </span>
           </button>
         </form>
+        <p
+          data-newsletter-msg
+          role="status"
+          aria-live="polite"
+          class="mt-2 text-[13px] leading-snug min-h-[18px] transition-opacity duration-300 opacity-0"
+        ></p>
       </div>
     </div>
 

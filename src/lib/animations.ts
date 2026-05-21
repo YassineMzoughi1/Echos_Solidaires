@@ -592,59 +592,117 @@ export function initGalleryFilter() {
   }
 }
 
-/* ---------- Registration / contact form: log + success state ---------- */
+/* ---------- Registration / contact form: POST + success / error states ----------
+ *
+ * Each form opts in by setting:
+ *   • `data-form`               on the <form>
+ *   • `data-form-endpoint="/api/…"`   the SSR endpoint to POST FormData to
+ *   • `data-form-wrap`          (optional) wrapper that gets hidden on success
+ *   • a sibling `[data-form-success]`  card that gets revealed
+ *   • a sibling `[data-form-error]`    (optional) inline error message slot
+ *   • a button with `data-submit-btn` (loading state via `.is-loading`)
+ *
+ * Re-binding is idempotent — listeners are attached once even when initForms()
+ * re-runs on `astro:page-load`.
+ */
 export function initForms() {
   document.querySelectorAll<HTMLFormElement>('[data-form]').forEach((form) => {
-    form.addEventListener('submit', (e) => {
+    if (form.dataset.formBound === '1') return;
+    form.dataset.formBound = '1';
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const payload = Object.fromEntries(new FormData(form).entries());
-      // TODO: wire to backend (Resend, Web3Forms, Formspree…)
-      // eslint-disable-next-line no-console
-      console.log('[form payload]', payload);
 
-      // The thing we swap out is whichever wrapper holds the form
-      // ([data-form-wrap] when present, otherwise the form itself).
-      // The success message lives as a sibling under the same shell.
       const wrap = (form.closest<HTMLElement>('[data-form-wrap]') ?? form);
-      const success = wrap.parentElement?.querySelector<HTMLElement>('[data-form-success]');
-      if (!success) return;
-
+      const success = wrap.parentElement?.querySelector<HTMLElement>('[data-form-success]') ?? null;
+      const errorBox = wrap.parentElement?.querySelector<HTMLElement>('[data-form-error]') ?? null;
       const btn = form.querySelector<HTMLButtonElement>('[data-submit-btn]');
-      const loadingMs = 1200; // simulated network latency
+      const endpoint = form.dataset.formEndpoint ?? form.getAttribute('action') ?? '';
+
+      const lockFields = (locked: boolean) => {
+        if (btn) {
+          btn.classList.toggle('is-loading', locked);
+          btn.disabled = locked;
+        }
+        form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+          'input, textarea, select'
+        ).forEach((el) => { el.disabled = locked; });
+      };
+
+      const showError = (msg: string) => {
+        if (errorBox) {
+          errorBox.textContent = msg;
+          errorBox.removeAttribute('hidden');
+          errorBox.style.display = 'block';
+          if (!reducedMotion()) {
+            gsap.fromTo(errorBox, { opacity: 0, y: -4 }, { opacity: 1, y: 0, duration: 0.3 });
+          }
+        } else {
+          // Fallback for forms that didn't ship an error slot.
+          // eslint-disable-next-line no-alert
+          alert(msg);
+        }
+      };
+
+      const hideError = () => {
+        if (errorBox) {
+          errorBox.setAttribute('hidden', '');
+          errorBox.style.display = 'none';
+        }
+      };
 
       const revealSuccess = () => {
         wrap.style.display = 'none';
+        if (!success) return;
         success.style.display = 'flex';
-        if (reducedMotion()) return;
-        gsap.fromTo(
-          success,
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
-        );
+        if (!reducedMotion()) {
+          gsap.fromTo(
+            success,
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }
+          );
+        }
       };
 
-      if (reducedMotion()) {
-        revealSuccess();
-        return;
-      }
+      hideError();
+      lockFields(true);
 
-      // Loading state on the button (disable interactions, swap label → spinner).
-      if (btn) {
-        btn.classList.add('is-loading');
-        btn.disabled = true;
-      }
-      form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea')
-        .forEach((el) => { el.disabled = true; });
+      try {
+        if (!endpoint) {
+          throw new Error('Configuration manquante : data-form-endpoint absent.');
+        }
 
-      window.setTimeout(() => {
-        gsap.to(wrap, {
-          opacity: 0,
-          y: -8,
-          duration: 0.45,
-          ease: 'power2.in',
-          onComplete: revealSuccess
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
         });
-      }, loadingMs);
+
+        if (!res.ok) {
+          let serverMsg = 'L’envoi a échoué. Veuillez réessayer.';
+          try {
+            const data = await res.json();
+            if (data && typeof data.error === 'string') serverMsg = data.error;
+          } catch { /* ignore parse errors */ }
+          throw new Error(serverMsg);
+        }
+
+        if (reducedMotion()) {
+          revealSuccess();
+        } else {
+          gsap.to(wrap, {
+            opacity: 0,
+            y: -8,
+            duration: 0.45,
+            ease: 'power2.in',
+            onComplete: revealSuccess,
+          });
+        }
+      } catch (err) {
+        lockFields(false);
+        const msg = err instanceof Error ? err.message : 'Erreur réseau. Veuillez réessayer.';
+        showError(msg);
+      }
     });
   });
 }
